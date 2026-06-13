@@ -8,33 +8,32 @@
     android:fitsSystemWindows="true"
     tools:context=".MemoEditActivity">
 
+    <!-- 제목 EditText를 Toolbar 안에 배치 -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarEdit"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="#FFCC99"
-        app:titleTextColor="#5D4037"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- 메모 이름: 직접 터치하여 인라인 수정 -->
-    <EditText
-        android:id="@+id/etMemoTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@drawable/shape_rounded_title"
-        android:hint="@string/hint_memo_title"
-        android:inputType="text"
-        android:maxLines="1"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarEdit" />
+        <EditText
+            android:id="@+id/etMemoTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/hint_memo_title"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="#5D4037"
+            android:textColorHint="#BF8C7A"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <!-- 메모 내용: 전체 영역 -->
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 메모 내용: Toolbar 아래 전체 영역 -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -42,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etMemoTitle">
+        app:layout_constraintTop_toBottomOf="@id/toolbarEdit">
 
         <EditText
             android:id="@+id/etMemoContent"
