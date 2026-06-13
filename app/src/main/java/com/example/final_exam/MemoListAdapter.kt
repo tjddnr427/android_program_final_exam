@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import java.util.Calendar
 
 class MemoListAdapter(var context: Context, var memoList: ArrayList<Memo>) : BaseAdapter() {
 
@@ -20,7 +19,6 @@ class MemoListAdapter(var context: Context, var memoList: ArrayList<Memo>) : Bas
 
         val tvTitle = view.findViewById<TextView>(R.id.tvItemTitle)
         val tvFirstLine = view.findViewById<TextView>(R.id.tvItemFirstLine)
-        val tvDate = view.findViewById<TextView>(R.id.tvItemDate)
 
         val memo = memoList[position]
 
@@ -37,19 +35,6 @@ class MemoListAdapter(var context: Context, var memoList: ArrayList<Memo>) : Bas
             tvFirstLine.text = memo.content
         }
 
-        tvDate.text = formatDate(memo.updatedAt)
-
         return view
-    }
-
-    private fun formatDate(timeMs: Long): String {
-        val cal = Calendar.getInstance()
-        cal.timeInMillis = timeMs
-        val year = cal.get(Calendar.YEAR)
-        val month = cal.get(Calendar.MONTH) + 1
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-        val hour = cal.get(Calendar.HOUR_OF_DAY)
-        val min = cal.get(Calendar.MINUTE)
-        return String.format("%d/%02d/%02d %02d:%02d", year, month, day, hour, min)
     }
 }

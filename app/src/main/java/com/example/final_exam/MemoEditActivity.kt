@@ -30,11 +30,10 @@ class MemoEditActivity : AppCompatActivity() {
         if (receivedId != null) {
             memoId = receivedId
             if (!isNew) {
-                val memos = MemoStorage().loadAll(this)
                 var found: Memo? = null
-                for (i in 0 until memos.size) {
-                    if (memos[i].id == memoId) {
-                        found = memos[i]
+                for (i in 0 until MemoStorage.memos.size) {
+                    if (MemoStorage.memos[i].id == memoId) {
+                        found = MemoStorage.memos[i]
                         break
                     }
                 }
@@ -76,12 +75,10 @@ class MemoEditActivity : AppCompatActivity() {
             return
         }
 
-        val memos = MemoStorage().loadAll(this)
-
         var existing: Memo? = null
-        for (i in 0 until memos.size) {
-            if (memos[i].id == memoId) {
-                existing = memos[i]
+        for (i in 0 until MemoStorage.memos.size) {
+            if (MemoStorage.memos[i].id == memoId) {
+                existing = MemoStorage.memos[i]
                 break
             }
         }
@@ -93,7 +90,6 @@ class MemoEditActivity : AppCompatActivity() {
                 existing.title = title
             }
             existing.content = content
-            existing.updatedAt = System.currentTimeMillis()
         } else {
             val newTitle: String
             if (title == "") {
@@ -101,9 +97,7 @@ class MemoEditActivity : AppCompatActivity() {
             } else {
                 newTitle = title
             }
-            memos.add(Memo(memoId, newTitle, content, System.currentTimeMillis()))
+            MemoStorage.memos.add(0, Memo(memoId, newTitle, content))
         }
-
-        MemoStorage().saveAll(this, memos)
     }
 }

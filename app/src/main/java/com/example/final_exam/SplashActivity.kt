@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import java.util.Calendar
 
 class SplashActivity : AppCompatActivity() {
 
@@ -15,7 +14,6 @@ class SplashActivity : AppCompatActivity() {
     lateinit var layoutRecentMemo: LinearLayout
     lateinit var tvRecentTitle: TextView
     lateinit var tvRecentFirstLine: TextView
-    lateinit var tvRecentDate: TextView
     lateinit var tvNewMemo: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +24,9 @@ class SplashActivity : AppCompatActivity() {
         layoutRecentMemo = findViewById(R.id.layoutRecentMemo)
         tvRecentTitle = findViewById(R.id.tvRecentTitle)
         tvRecentFirstLine = findViewById(R.id.tvRecentFirstLine)
-        tvRecentDate = findViewById(R.id.tvRecentDate)
         tvNewMemo = findViewById(R.id.tvNewMemo)
 
-        val storage = MemoStorage()
-        val latestMemo = storage.loadLatest(this)
+        val latestMemo = MemoStorage.getLatest()
 
         if (latestMemo != null) {
             layoutRecentMemo.visibility = View.VISIBLE
@@ -47,8 +43,6 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 tvRecentFirstLine.text = latestMemo.content
             }
-
-            tvRecentDate.text = formatDate(latestMemo.updatedAt)
 
             layoutRecentMemo.setOnClickListener {
                 val intent = Intent(this, MemoEditActivity::class.java)
@@ -69,16 +63,5 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finish()
-    }
-
-    private fun formatDate(timeMs: Long): String {
-        val cal = Calendar.getInstance()
-        cal.timeInMillis = timeMs
-        val year = cal.get(Calendar.YEAR)
-        val month = cal.get(Calendar.MONTH) + 1
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-        val hour = cal.get(Calendar.HOUR_OF_DAY)
-        val min = cal.get(Calendar.MINUTE)
-        return String.format("%d/%02d/%02d %02d:%02d", year, month, day, hour, min)
     }
 }

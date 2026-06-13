@@ -64,14 +64,6 @@
                 android:textColor="#6D4C41"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tvRecentDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="#8D6E63"
-                android:textSize="12sp" />
-
         </LinearLayout>
 
         <!-- 새 메모 작성 텍스트 (메모 없을 때) -->

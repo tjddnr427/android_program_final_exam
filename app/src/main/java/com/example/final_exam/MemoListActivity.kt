@@ -38,7 +38,7 @@ class MemoListActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setMessage("삭제하시겠습니까?")
                 .setPositiveButton("삭제") { _, _ ->
-                    MemoStorage().delete(this, memo.id)
+                    MemoStorage.delete(memo.id)
                     memoList.removeAt(position)
                     adapter.notifyDataSetChanged()
                 }
@@ -51,7 +51,7 @@ class MemoListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         memoList.clear()
-        memoList.addAll(MemoStorage().loadSorted(this))
+        memoList.addAll(MemoStorage.memos)
         adapter.notifyDataSetChanged()
     }
 
