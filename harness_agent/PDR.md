@@ -132,7 +132,36 @@ data class Memo(
 
 ---
 
-## 9. 주요 기술 항목 (수업 참고)
+## 9. 허용 위젯 / 컨테이너 (예제 파일 기준)
+
+### 레이아웃 컨테이너
+| 허용 | 금지 (수업 미포함) |
+|---|---|
+| `ConstraintLayout` | — |
+| `LinearLayout` | — |
+| `ScrollView > LinearLayout` | — |
+| `FrameLayout` | `CoordinatorLayout` |
+
+### 위젯
+| 허용 | 금지 (수업 미포함) |
+|---|---|
+| `TextView`, `EditText`, `Button` | `FloatingActionButton` |
+| `ListView` | `RecyclerView` |
+| `ImageView` | `CardView`, `MaterialCardView` |
+| Shape Drawable (둥근 네모 배경) | `BottomNavigationView` |
+| Options Menu (`onCreateOptionsMenu`) | `NavigationDrawer` |
+
+### 화면별 적용
+| 화면 | 루트 레이아웃 | 주요 위젯 |
+|---|---|---|
+| SplashActivity | `ConstraintLayout` | `TextView`(앱이름), `Button`(이전메모), 메모 카드(`LinearLayout`+shape) |
+| MemoListActivity | `ConstraintLayout` | `ListView` + Options Menu |
+| MemoEditActivity | `ConstraintLayout` | `EditText`(이름), `ScrollView > EditText`(내용) |
+| item_memo.xml | `LinearLayout` + shape drawable | `TextView` × 3 (이름/첫줄/날짜) |
+
+---
+
+## 11. 주요 기술 항목 (수업 참고)
 
 | 기능 | 적용 기술 |
 |---|---|
@@ -146,7 +175,7 @@ data class Memo(
 
 ---
 
-## 10. 파일 구성 (생성 대상)
+## 12. 파일 구성 (생성 대상)
 
 ### Kotlin
 - `Memo.kt` (data class)

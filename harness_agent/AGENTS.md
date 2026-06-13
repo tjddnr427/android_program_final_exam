@@ -100,6 +100,10 @@ Wave 5 (Wave 4 완료 후)
 | `startActivityForResult` / `onActivityResult` | ActivityResultLauncher |
 | `SharedPreferences` + `org.json` | Room, Retrofit, Hilt |
 | ViewModel, LiveData, Coroutines 사용 금지 | — |
+| `ConstraintLayout`, `LinearLayout`, `ScrollView` | `CoordinatorLayout` |
+| `ListView` + `BaseAdapter` | `RecyclerView` |
+| `TextView`, `EditText`, `Button`, `ImageView` | `FloatingActionButton`, `CardView` |
+| Options Menu (`onCreateOptionsMenu`) | `BottomNavigationView`, `NavigationDrawer` |
 
 ---
 
