@@ -1,13 +1,11 @@
 package com.example.final_exam
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import java.util.UUID
 
 class MemoEditActivity : AppCompatActivity() {
 
@@ -32,15 +30,21 @@ class MemoEditActivity : AppCompatActivity() {
         if (receivedId != null) {
             memoId = receivedId
             if (!isNew) {
-                // 기존 메모 불러오기
-                val memo = MemoStorage.loadAll(this).find { it.id == memoId }
-                if (memo != null) {
-                    etMemoTitle.setText(memo.title)
-                    etMemoContent.setText(memo.content)
+                val memos = MemoStorage().loadAll(this)
+                var found: Memo? = null
+                for (i in 0 until memos.size) {
+                    if (memos[i].id == memoId) {
+                        found = memos[i]
+                        break
+                    }
+                }
+                if (found != null) {
+                    etMemoTitle.setText(found.title)
+                    etMemoContent.setText(found.content)
                 }
             }
         } else {
-            memoId = UUID.randomUUID().toString()
+            memoId = System.currentTimeMillis().toString()
         }
     }
 
@@ -49,13 +53,10 @@ class MemoEditActivity : AppCompatActivity() {
         return true
     }
 
-    // 목록으로 버튼 클릭
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_go_to_list -> {
-                val intent = Intent(this, MemoListActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                startActivity(intent)
+                finish()
                 return true
             }
         }
@@ -71,30 +72,38 @@ class MemoEditActivity : AppCompatActivity() {
         val title = etMemoTitle.text.toString().trim()
         val content = etMemoContent.text.toString().trim()
 
-        // 이름 미수정 + 내용 비어있으면 저장하지 않음
-        val isEmptyTitle = title.isEmpty() || title == getString(R.string.hint_memo_title)
-        if (isEmptyTitle && content.isEmpty()) {
+        if (title == "" && content == "") {
             return
         }
 
-        val memos = MemoStorage.loadAll(this)
-        val existing = memos.find { it.id == memoId }
+        val memos = MemoStorage().loadAll(this)
+
+        var existing: Memo? = null
+        for (i in 0 until memos.size) {
+            if (memos[i].id == memoId) {
+                existing = memos[i]
+                break
+            }
+        }
 
         if (existing != null) {
-            existing.title = title.ifEmpty { getString(R.string.hint_memo_title) }
+            if (title == "") {
+                existing.title = getString(R.string.hint_memo_title)
+            } else {
+                existing.title = title
+            }
             existing.content = content
             existing.updatedAt = System.currentTimeMillis()
         } else {
-            memos.add(
-                Memo(
-                    id = memoId,
-                    title = title.ifEmpty { getString(R.string.hint_memo_title) },
-                    content = content,
-                    updatedAt = System.currentTimeMillis()
-                )
-            )
+            val newTitle: String
+            if (title == "") {
+                newTitle = getString(R.string.hint_memo_title)
+            } else {
+                newTitle = title
+            }
+            memos.add(Memo(memoId, newTitle, content, System.currentTimeMillis()))
         }
 
-        MemoStorage.saveAll(this, memos)
+        MemoStorage().saveAll(this, memos)
     }
 }

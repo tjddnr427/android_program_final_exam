@@ -1,62 +1,73 @@
 package com.example.final_exam
 
 import android.content.Context
-import org.json.JSONArray
-import org.json.JSONObject
 
-object MemoStorage {
-
-    private const val PREF_NAME = "memo_prefs"
-    private const val KEY_MEMOS = "memos"
+class MemoStorage {
 
     fun saveAll(context: Context, memos: ArrayList<Memo>) {
-        val array = JSONArray()
-        for (memo in memos) {
-            val obj = JSONObject()
-            obj.put("id", memo.id)
-            obj.put("title", memo.title)
-            obj.put("content", memo.content)
-            obj.put("updatedAt", memo.updatedAt)
-            array.put(obj)
+        val pref = context.getSharedPreferences("memo_prefs", Context.MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.clear()
+        editor.putInt("count", memos.size)
+        for (i in 0 until memos.size) {
+            editor.putString("id_$i", memos[i].id)
+            editor.putString("title_$i", memos[i].title)
+            editor.putString("content_$i", memos[i].content)
+            editor.putLong("date_$i", memos[i].updatedAt)
         }
-        val pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        pref.edit().putString(KEY_MEMOS, array.toString()).apply()
+        editor.apply()
     }
 
     fun loadAll(context: Context): ArrayList<Memo> {
-        val pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        val json = pref.getString(KEY_MEMOS, "[]") ?: "[]"
-        val array = JSONArray(json)
+        val pref = context.getSharedPreferences("memo_prefs", Context.MODE_PRIVATE)
+        val count = pref.getInt("count", 0)
         val list = ArrayList<Memo>()
-        for (i in 0 until array.length()) {
-            val obj = array.getJSONObject(i)
-            list.add(
-                Memo(
-                    id = obj.getString("id"),
-                    title = obj.getString("title"),
-                    content = obj.getString("content"),
-                    updatedAt = obj.getLong("updatedAt")
-                )
-            )
+        for (i in 0 until count) {
+            val id = pref.getString("id_$i", "") ?: ""
+            val title = pref.getString("title_$i", "") ?: ""
+            val content = pref.getString("content_$i", "") ?: ""
+            val date = pref.getLong("date_$i", 0L)
+            if (id != "") {
+                list.add(Memo(id, title, content, date))
+            }
         }
         return list
     }
 
     fun delete(context: Context, id: String) {
         val list = loadAll(context)
-        list.removeAll { it.id == id }
+        var indexToRemove = -1
+        for (i in 0 until list.size) {
+            if (list[i].id == id) {
+                indexToRemove = i
+                break
+            }
+        }
+        if (indexToRemove >= 0) {
+            list.removeAt(indexToRemove)
+        }
         saveAll(context, list)
     }
 
-    // 날짜 기준 내림차순 정렬
     fun loadSorted(context: Context): ArrayList<Memo> {
         val list = loadAll(context)
-        list.sortByDescending { it.updatedAt }
+        for (i in 0 until list.size - 1) {
+            for (j in 0 until list.size - 1 - i) {
+                if (list[j].updatedAt < list[j + 1].updatedAt) {
+                    val temp = list[j]
+                    list[j] = list[j + 1]
+                    list[j + 1] = temp
+                }
+            }
+        }
         return list
     }
 
-    // 가장 최근 메모 1개 반환 (없으면 null)
     fun loadLatest(context: Context): Memo? {
-        return loadSorted(context).firstOrNull()
+        val list = loadSorted(context)
+        if (list.size > 0) {
+            return list[0]
+        }
+        return null
     }
 }

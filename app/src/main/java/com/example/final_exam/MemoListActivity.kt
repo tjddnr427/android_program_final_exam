@@ -8,7 +8,6 @@ import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import java.util.UUID
 
 class MemoListActivity : AppCompatActivity() {
 
@@ -27,7 +26,6 @@ class MemoListActivity : AppCompatActivity() {
         adapter = MemoListAdapter(this, memoList)
         listViewMemo.adapter = adapter
 
-        // 메모 클릭: MemoEditActivity로 이동
         listViewMemo.setOnItemClickListener { _, _, position, _ ->
             val memo = memoList[position]
             val intent = Intent(this, MemoEditActivity::class.java)
@@ -35,13 +33,12 @@ class MemoListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 롱클릭: 삭제 확인 다이얼로그
         listViewMemo.setOnItemLongClickListener { _, _, position, _ ->
             val memo = memoList[position]
             AlertDialog.Builder(this)
                 .setMessage("삭제하시겠습니까?")
                 .setPositiveButton("삭제") { _, _ ->
-                    MemoStorage.delete(this, memo.id)
+                    MemoStorage().delete(this, memo.id)
                     memoList.removeAt(position)
                     adapter.notifyDataSetChanged()
                 }
@@ -54,11 +51,10 @@ class MemoListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         memoList.clear()
-        memoList.addAll(MemoStorage.loadSorted(this))
+        memoList.addAll(MemoStorage().loadSorted(this))
         adapter.notifyDataSetChanged()
     }
 
-    // + 버튼: 새 메모 생성 후 편집 화면으로 이동
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_memo_list, menu)
@@ -68,7 +64,7 @@ class MemoListActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_new_memo -> {
-                val newId = UUID.randomUUID().toString()
+                val newId = System.currentTimeMillis().toString()
                 val intent = Intent(this, MemoEditActivity::class.java)
                 intent.putExtra("memo_id", newId)
                 intent.putExtra("is_new", true)

@@ -7,9 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.Calendar
 
 class SplashActivity : AppCompatActivity() {
 
@@ -31,21 +29,27 @@ class SplashActivity : AppCompatActivity() {
         tvRecentDate = findViewById(R.id.tvRecentDate)
         tvNewMemo = findViewById(R.id.tvNewMemo)
 
-        val latestMemo = MemoStorage.loadLatest(this)
+        val storage = MemoStorage()
+        val latestMemo = storage.loadLatest(this)
 
         if (latestMemo != null) {
             layoutRecentMemo.visibility = View.VISIBLE
 
-            val firstLine = if (latestMemo.content.isNotEmpty())
-                latestMemo.content.lines().first() else ""
-            val dateStr = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault())
-                .format(Date(latestMemo.updatedAt))
+            if (latestMemo.title == "") {
+                tvRecentTitle.text = getString(R.string.hint_memo_title)
+            } else {
+                tvRecentTitle.text = latestMemo.title
+            }
 
-            tvRecentTitle.text = latestMemo.title.ifEmpty { getString(R.string.hint_memo_title) }
-            tvRecentFirstLine.text = firstLine
-            tvRecentDate.text = dateStr
+            val newlineIdx = latestMemo.content.indexOf('\n')
+            if (newlineIdx >= 0) {
+                tvRecentFirstLine.text = latestMemo.content.substring(0, newlineIdx)
+            } else {
+                tvRecentFirstLine.text = latestMemo.content
+            }
 
-            // 이전 기록 카드 클릭 → 해당 메모 편집으로 바로 이동
+            tvRecentDate.text = formatDate(latestMemo.updatedAt)
+
             layoutRecentMemo.setOnClickListener {
                 val intent = Intent(this, MemoEditActivity::class.java)
                 intent.putExtra("memo_id", latestMemo.id)
@@ -56,7 +60,6 @@ class SplashActivity : AppCompatActivity() {
             tvNewMemo.visibility = View.VISIBLE
         }
 
-        // 배경(카드 외 다른 곳) 클릭 → 전체 메모 목록으로
         rootSplash.setOnClickListener {
             val intent = Intent(this, MemoListActivity::class.java)
             startActivity(intent)
@@ -64,8 +67,18 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    // 뒤로가기 = 앱 종료
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun formatDate(timeMs: Long): String {
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = timeMs
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH) + 1
+        val day = cal.get(Calendar.DAY_OF_MONTH)
+        val hour = cal.get(Calendar.HOUR_OF_DAY)
+        val min = cal.get(Calendar.MINUTE)
+        return String.format("%d/%02d/%02d %02d:%02d", year, month, day, hour, min)
     }
 }
