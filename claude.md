@@ -13,10 +13,19 @@
 ## 절대 규칙
 
 - `harness_folder/document/reference_folder/` 코드 스타일 범위를 절대 벗어나지 않는다
-- 클로드가 생성하는 md 파일은 `harness_agent/` 폴더에 저장한다
 - `"agent"` 필드가 이미 채워진 기능은 건드리지 않는다 (다른 에이전트 작업 중)
 - 현재 Wave의 모든 기능이 `"done"` 이 되어야 다음 Wave 진입 가능
 - 기능 완료 후: `feature_list.json` 업데이트 → `claude-progress.md` 기록 → git push
+
+## 파일 저장 위치
+
+| 파일 종류 | 저장 위치 |
+|---|---|
+| 하네스 운영 문서 (AGENTS, PDR, feature_list, progress) | `harness_agent/` |
+| 코드 구현 설명 문서 | `harness_agent/docs/` |
+| Kotlin 소스 | `app/src/main/java/com/example/final_exam/` |
+| XML 레이아웃 | `app/src/main/res/layout/` |
+| Drawable | `app/src/main/res/drawable/` |
 
 ## Wave 현황
 
