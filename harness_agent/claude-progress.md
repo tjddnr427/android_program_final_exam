@@ -18,23 +18,30 @@
 - `harness_agent/claude-progress.md` 생성 (이 파일)
 
 **현재 상태:** 하네스 구조 완성, 코드 구현 미시작  
-**다음 세션 시작 위치:** F01(Memo.kt) + F02(MemoStorage.kt) — 의존성 없는 기반 클래스부터
-
-**미완료 기능 현황:**
-- F01 Memo.kt → pending
-- F02 MemoStorage.kt → pending
-- F03 shape_rounded_title.xml → pending
-- F04 shape_memo_card.xml → pending
-- F05 activity_splash.xml → pending
-- F06 item_memo.xml → pending
-- F07 activity_memo_list.xml → pending
-- F08 activity_memo_edit.xml → pending
-- F09 SplashActivity.kt → pending
-- F10 MemoListAdapter.kt → pending
-- F11 MemoListActivity.kt → pending
-- F12 MemoEditActivity.kt → pending
-- F13 AndroidManifest.xml 수정 → pending
-- F14 strings.xml 수정 → pending
 
 ---
-<!-- 새 세션 기록은 위 형식으로 이 아래에 추가 -->
+
+### 세션 2 — 2026-06-13
+**작업자:** Claude Sonnet 4.6  
+**완료 항목 (Wave 1~5 전체):**
+
+| Wave | 기능 ID | 파일 | 상태 |
+|---|---|---|---|
+| 1 | F01 | Memo.kt | done |
+| 1 | F03 | shape_rounded_title.xml | done |
+| 1 | F04 | shape_memo_card.xml | done |
+| 1 | F07 | activity_memo_list.xml | done |
+| 1 | F08 | activity_memo_edit.xml | done |
+| 1 | F14 | strings.xml | done |
+| 2 | F02 | MemoStorage.kt | done |
+| 2 | F05 | activity_splash.xml | done |
+| 2 | F06 | item_memo.xml | done |
+| 3 | F09 | SplashActivity.kt | done |
+| 3 | F10 | MemoListAdapter.kt | done |
+| 4 | F11 | MemoListActivity.kt | done |
+| 4 | F12 | MemoEditActivity.kt | done |
+| 5 | F13 | AndroidManifest.xml | done |
+| 추가 | — | menu_memo_list.xml | done |
+
+**현재 상태:** 전체 코드 생성 완료, 빌드 검증 필요  
+**다음 세션:** Android Studio에서 빌드 후 오류 수정

@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Final_Exam</string>
+    <string name="app_name">나만의 메모장</string>
+    <string name="btn_go_to_recent">이전 메모로 바로가기</string>
+    <string name="txt_new_memo">새 메모 작성</string>
+    <string name="menu_new_memo">새 메모</string>
+    <string name="hint_memo_title">이름 없음</string>
+    <string name="hint_memo_content">메모를 입력하세요</string>
+    <string name="title_all_memo">모든 메모</string>
 </resources>
