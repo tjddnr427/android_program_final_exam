@@ -2,103 +2,89 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootSplash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF8F0"
+    android:fitsSystemWindows="true"
     tools:context=".SplashActivity">
 
-    <!-- 앱 이름: 화면 중앙보다 살짝 위 -->
-    <TextView
-        android:id="@+id/tvAppTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_rounded_title"
-        android:text="@string/app_name"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#5D4037"
-        app:layout_constraintBottom_toTopOf="@id/guidelineCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
-
-    <!-- 중앙 기준선 -->
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <!-- 이전 메모로 바로가기 버튼 (메모 있을 때 표시) -->
-    <Button
-        android:id="@+id/btnGoToRecent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/btn_go_to_recent"
-        android:textColor="#5D4037"
-        android:backgroundTint="#FFCC99"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAppTitle" />
-
-    <!-- 최신 메모 카드 (메모 있을 때 표시) -->
+    <!-- 앱 이름 + 이전 기록 카드를 묶은 중앙 컨테이너 -->
     <LinearLayout
-        android:id="@+id/layoutRecentMemo"
+        android:id="@+id/layoutCenter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/shape_memo_card"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnGoToRecent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
+        <!-- 앱 이름 블록 -->
         <TextView
-            android:id="@+id/tvRecentTitle"
+            android:id="@+id/tvAppTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded_title"
+            android:text="@string/app_name"
+            android:textColor="#5D4037"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- 이전 기록 카드 (메모 있을 때) -->
+        <LinearLayout
+            android:id="@+id/layoutRecentMemo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#4E342E" />
+            android:layout_marginTop="24dp"
+            android:background="@drawable/shape_memo_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tvRecentFirstLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:textColor="#6D4C41"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            <TextView
+                android:id="@+id/tvRecentTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#4E342E"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/tvRecentFirstLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#6D4C41"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvRecentDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#8D6E63"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- 새 메모 작성 텍스트 (메모 없을 때) -->
         <TextView
-            android:id="@+id/tvRecentDate"
-            android:layout_width="match_parent"
+            android:id="@+id/tvNewMemo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            android:textColor="#8D6E63" />
+            android:layout_marginTop="24dp"
+            android:text="@string/txt_new_memo"
+            android:textColor="#8D6E63"
+            android:textSize="18sp"
+            android:visibility="gone" />
 
     </LinearLayout>
-
-    <!-- 새 메모 작성 텍스트 (메모 없을 때 표시) -->
-    <TextView
-        android:id="@+id/tvNewMemo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/txt_new_memo"
-        android:textSize="18sp"
-        android:textColor="#8D6E63"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAppTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

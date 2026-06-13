@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import java.util.UUID
 
 class MemoListActivity : AppCompatActivity() {
 
@@ -17,7 +20,8 @@ class MemoListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_memo_list)
 
-        title = getString(R.string.title_all_memo)
+        val toolbar = findViewById<Toolbar>(R.id.toolbarList)
+        setSupportActionBar(toolbar)
 
         listViewMemo = findViewById(R.id.listViewMemo)
         adapter = MemoListAdapter(this, memoList)
@@ -31,25 +35,30 @@ class MemoListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 메모 롱클릭: 즉시 삭제
+        // 롱클릭: 삭제 확인 다이얼로그
         listViewMemo.setOnItemLongClickListener { _, _, position, _ ->
             val memo = memoList[position]
-            MemoStorage.delete(this, memo.id)
-            memoList.removeAt(position)
-            adapter.notifyDataSetChanged()
+            AlertDialog.Builder(this)
+                .setMessage("삭제하시겠습니까?")
+                .setPositiveButton("삭제") { _, _ ->
+                    MemoStorage.delete(this, memo.id)
+                    memoList.removeAt(position)
+                    adapter.notifyDataSetChanged()
+                }
+                .setNegativeButton("취소", null)
+                .show()
             true
         }
     }
 
     override fun onResume() {
         super.onResume()
-        // 화면 돌아올 때마다 목록 갱신
         memoList.clear()
         memoList.addAll(MemoStorage.loadSorted(this))
         adapter.notifyDataSetChanged()
     }
 
-    // 상단 액션바 메뉴 (새 메모 추가)
+    // + 버튼: 새 메모 생성 후 편집 화면으로 이동
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_memo_list, menu)
@@ -59,7 +68,10 @@ class MemoListActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_new_memo -> {
+                val newId = UUID.randomUUID().toString()
                 val intent = Intent(this, MemoEditActivity::class.java)
+                intent.putExtra("memo_id", newId)
+                intent.putExtra("is_new", true)
                 startActivity(intent)
                 return true
             }

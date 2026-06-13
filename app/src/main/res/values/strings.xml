@@ -6,4 +6,5 @@
     <string name="hint_memo_title">이름 없음</string>
     <string name="hint_memo_content">메모를 입력하세요</string>
     <string name="title_all_memo">모든 메모</string>
+    <string name="menu_go_to_list">목록으로</string>
 </resources>
