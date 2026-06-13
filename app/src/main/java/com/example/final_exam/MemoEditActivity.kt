@@ -1,6 +1,7 @@
 package com.example.final_exam
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import java.util.UUID
@@ -16,6 +17,9 @@ class MemoEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_memo_edit)
+
+        // 액션바에 ← 뒤로가기 버튼 표시
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         etMemoTitle = findViewById(R.id.etMemoTitle)
         etMemoContent = findViewById(R.id.etMemoContent)
@@ -37,6 +41,15 @@ class MemoEditActivity : AppCompatActivity() {
             memoId = UUID.randomUUID().toString()
             isNewMemo = true
         }
+    }
+
+    // ← 버튼 클릭 시 MemoListActivity로 돌아감
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onPause() {
