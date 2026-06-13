@@ -1,118 +1,154 @@
 {
   "project": "나만의 메모장",
   "last_updated": "2026-06-13",
+  "multi_agent": true,
+  "wave_description": {
+    "wave1": "의존성 없음 — 모든 에이전트 동시 시작 가능",
+    "wave2": "wave1 전체 완료 후 시작",
+    "wave3": "wave2 전체 완료 후 시작",
+    "wave4": "wave3 전체 완료 후 시작",
+    "wave5": "wave4 전체 완료 후 시작 (마무리)"
+  },
   "features": [
     {
       "id": "F01",
+      "wave": 1,
       "name": "Memo 데이터 클래스",
       "file": "app/src/main/java/com/example/final_exam/Memo.kt",
       "description": "id(UUID), title, content, updatedAt 필드를 가진 data class",
       "depends_on": [],
-      "status": "pending"
-    },
-    {
-      "id": "F02",
-      "name": "MemoStorage 유틸리티",
-      "file": "app/src/main/java/com/example/final_exam/MemoStorage.kt",
-      "description": "SharedPreferences + org.json으로 메모 저장/불러오기/삭제",
-      "depends_on": ["F01"],
-      "status": "pending"
+      "status": "pending",
+      "agent": null
     },
     {
       "id": "F03",
+      "wave": 1,
       "name": "shape_rounded_title drawable",
       "file": "app/src/main/res/drawable/shape_rounded_title.xml",
       "description": "화면1 앱 이름용 둥근 네모 배경 (cornerRadius)",
       "depends_on": [],
-      "status": "pending"
+      "status": "pending",
+      "agent": null
     },
     {
       "id": "F04",
+      "wave": 1,
       "name": "shape_memo_card drawable",
       "file": "app/src/main/res/drawable/shape_memo_card.xml",
       "description": "메모 카드 배경 (연한 색상 + cornerRadius)",
       "depends_on": [],
-      "status": "pending"
-    },
-    {
-      "id": "F05",
-      "name": "activity_splash.xml 레이아웃",
-      "file": "app/src/main/res/layout/activity_splash.xml",
-      "description": "화면1: 앱 이름(둥근네모), 이전메모로 바로가기 버튼, 최신메모 카드 or 새메모작성 텍스트",
-      "depends_on": ["F03", "F04"],
-      "status": "pending"
-    },
-    {
-      "id": "F06",
-      "name": "item_memo.xml 레이아웃",
-      "file": "app/src/main/res/layout/item_memo.xml",
-      "description": "ListView 행: 메모장 이름 / 첫 번째 줄 / 날짜",
-      "depends_on": ["F04"],
-      "status": "pending"
+      "status": "pending",
+      "agent": null
     },
     {
       "id": "F07",
+      "wave": 1,
       "name": "activity_memo_list.xml 레이아웃",
       "file": "app/src/main/res/layout/activity_memo_list.xml",
       "description": "화면2: ListView + 새 메모 추가 버튼",
       "depends_on": [],
-      "status": "pending"
+      "status": "pending",
+      "agent": null
     },
     {
       "id": "F08",
+      "wave": 1,
       "name": "activity_memo_edit.xml 레이아웃",
       "file": "app/src/main/res/layout/activity_memo_edit.xml",
       "description": "화면3: 메모 이름 EditText(상단) + 내용 EditText(전체 영역)",
       "depends_on": [],
-      "status": "pending"
-    },
-    {
-      "id": "F09",
-      "name": "SplashActivity.kt",
-      "file": "app/src/main/java/com/example/final_exam/SplashActivity.kt",
-      "description": "화면1 로직: 최신 메모 표시 or 새메모작성 표시, 클릭 시 이동, finish()로 스택 제거",
-      "depends_on": ["F01", "F02", "F05"],
-      "status": "pending"
-    },
-    {
-      "id": "F10",
-      "name": "MemoListAdapter.kt",
-      "file": "app/src/main/java/com/example/final_exam/MemoListAdapter.kt",
-      "description": "BaseAdapter 상속 커스텀 어댑터: 메모 이름/첫줄/날짜 바인딩",
-      "depends_on": ["F01", "F06"],
-      "status": "pending"
-    },
-    {
-      "id": "F11",
-      "name": "MemoListActivity.kt",
-      "file": "app/src/main/java/com/example/final_exam/MemoListActivity.kt",
-      "description": "화면2 로직: 날짜순 정렬 ListView, 클릭 시 MemoEditActivity로 이동",
-      "depends_on": ["F02", "F07", "F10"],
-      "status": "pending"
-    },
-    {
-      "id": "F12",
-      "name": "MemoEditActivity.kt",
-      "file": "app/src/main/java/com/example/final_exam/MemoEditActivity.kt",
-      "description": "화면3 로직: 이름/내용 편집, onPause()에서 자동 저장",
-      "depends_on": ["F01", "F02", "F08"],
-      "status": "pending"
-    },
-    {
-      "id": "F13",
-      "name": "AndroidManifest.xml 수정",
-      "file": "app/src/main/AndroidManifest.xml",
-      "description": "SplashActivity(LAUNCHER), MemoListActivity, MemoEditActivity 등록",
-      "depends_on": ["F09", "F11", "F12"],
-      "status": "pending"
+      "status": "pending",
+      "agent": null
     },
     {
       "id": "F14",
+      "wave": 1,
       "name": "strings.xml 수정",
       "file": "app/src/main/res/values/strings.xml",
       "description": "앱 이름, 버튼 텍스트 등 문자열 리소스 추가",
       "depends_on": [],
-      "status": "pending"
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F02",
+      "wave": 2,
+      "name": "MemoStorage 유틸리티",
+      "file": "app/src/main/java/com/example/final_exam/MemoStorage.kt",
+      "description": "SharedPreferences + org.json으로 메모 저장/불러오기/삭제",
+      "depends_on": ["F01"],
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F05",
+      "wave": 2,
+      "name": "activity_splash.xml 레이아웃",
+      "file": "app/src/main/res/layout/activity_splash.xml",
+      "description": "화면1: 앱 이름(둥근네모), 이전메모로 바로가기 버튼, 최신메모 카드 or 새메모작성 텍스트",
+      "depends_on": ["F03", "F04"],
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F06",
+      "wave": 2,
+      "name": "item_memo.xml 레이아웃",
+      "file": "app/src/main/res/layout/item_memo.xml",
+      "description": "ListView 행: 메모장 이름 / 첫 번째 줄 / 날짜",
+      "depends_on": ["F04"],
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F09",
+      "wave": 3,
+      "name": "SplashActivity.kt",
+      "file": "app/src/main/java/com/example/final_exam/SplashActivity.kt",
+      "description": "화면1 로직: 최신 메모 표시 or 새메모작성 표시, 클릭 시 이동, finish()로 스택 제거",
+      "depends_on": ["F01", "F02", "F05"],
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F10",
+      "wave": 3,
+      "name": "MemoListAdapter.kt",
+      "file": "app/src/main/java/com/example/final_exam/MemoListAdapter.kt",
+      "description": "BaseAdapter 상속 커스텀 어댑터: 메모 이름/첫줄/날짜 바인딩",
+      "depends_on": ["F01", "F06"],
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F11",
+      "wave": 4,
+      "name": "MemoListActivity.kt",
+      "file": "app/src/main/java/com/example/final_exam/MemoListActivity.kt",
+      "description": "화면2 로직: 날짜순 정렬 ListView, 클릭 시 MemoEditActivity로 이동",
+      "depends_on": ["F02", "F07", "F10"],
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F12",
+      "wave": 4,
+      "name": "MemoEditActivity.kt",
+      "file": "app/src/main/java/com/example/final_exam/MemoEditActivity.kt",
+      "description": "화면3 로직: 이름/내용 편집, onPause()에서 자동 저장",
+      "depends_on": ["F01", "F02", "F08"],
+      "status": "pending",
+      "agent": null
+    },
+    {
+      "id": "F13",
+      "wave": 5,
+      "name": "AndroidManifest.xml 수정",
+      "file": "app/src/main/AndroidManifest.xml",
+      "description": "SplashActivity(LAUNCHER), MemoListActivity, MemoEditActivity 등록",
+      "depends_on": ["F09", "F11", "F12"],
+      "status": "pending",
+      "agent": null
     }
   ]
 }
